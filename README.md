@@ -1,9 +1,9 @@
-# machine-learning-algorithms
+**# Machine learning algorithms**
 
-### purpose
+**### Purpose**
 Practicing and creating basic machine learning algorithm
-
-### algoriths to do
+**
+### To do:**
 Multinomial Naive Bayes
 KNN
 K-means
