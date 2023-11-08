@@ -1,11 +1,15 @@
-**# Machine learning algorithms**
+# Machine learning algorithms
 
-**### Purpose**
+### Purpose
 Practicing and creating basic machine learning algorithm
-**
-### To do:**
+
+### To do:
 Multinomial Naive Bayes
+
 KNN
+
 K-means
+
 Regression Tree
+
 Basic neuron
