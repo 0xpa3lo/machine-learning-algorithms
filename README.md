@@ -1,7 +1,7 @@
 # Machine learning algorithms
 
 ### Purpose
-Practicing and creating basic machine learning algorithm
+Basic machine learning algorithms practice
 
 ### To do:
 Multinomial Naive Bayes
