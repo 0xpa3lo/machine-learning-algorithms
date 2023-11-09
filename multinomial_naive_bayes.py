@@ -43,7 +43,8 @@ class MultinomialNB:
                     total_word_count_per_tag[tag] += 1  
 
         # Initializing word likelihoods per tag/class
-        word_likelihoods_per_tag = defaultdict(lambda: {tag: 0.5 for tag in self.tags})  
+        default_probability = 0.5
+        word_likelihoods_per_tag = defaultdict(lambda: {tag: default_probability for tag in self.tags})  
         for word, tags_map in word_frequencies_per_tag.items():
             for tag in tags_map.keys():
                 # Calculating the likelihood of words given a tag/class with Laplace smoothing
