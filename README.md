@@ -4,7 +4,13 @@
 Basic machine learning algorithms practice
 
 ### To do:
-Multinomial Naive Bayes
+**Multinomial Naive Bayes**********
+
+Pseudo code:
+
+
+
+
 
 KNN
 
