@@ -29,6 +29,16 @@
 
 KNN
 
+   Prediction
+    
+      given features 
+      for each pid:
+        compute distance(features, pid['features'])
+      sort(distances
+      return most_frequent_label(dosatmces(I-> K))
+
+
+
 K-means
 
 Regression Tree
