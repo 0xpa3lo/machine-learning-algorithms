@@ -41,6 +41,16 @@ KNN
 
 K-means
 
+    init centroid
+    for num_iterations:
+      for user in data:
+        for centroid in centroids:
+          min_distance --> centroid.add(user)
+    
+    for centroid in centroids:
+      update_centroid_location
+    return centroid_location 
+  
 Regression Tree
 
 Basic neuron
