@@ -7,21 +7,21 @@
     
     Training
     
-      for tag: 
-      log_probability(tag) = count of articles in tag / all articles across all tags
-      
-      for tag:
-        for article:
-          for word:
-            log_probability(words | tag) = count of word in tag / count of word across tag
+          for tag: 
+          log_probability(tag) = count of articles in tag / all articles across all tags
+          
+          for tag:
+            for article:
+              for word:
+                log_probability(words | tag) = count of word in tag / count of word across tag
 
 
     Prediction
 
-      for word in words:
-        for tag:
-          log_probability(tag | words) = log_probability(words | tag) + log_probability(tag)
-      
+          for word in words:
+            for tag:
+              log_probability(tag | words) = log_probability(words | tag) + log_probability(tag)
+          
   Time complexity: O(m*d*c) 
   n - number of samples
   c - number of classes
