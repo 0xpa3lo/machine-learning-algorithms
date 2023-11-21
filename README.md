@@ -4,7 +4,6 @@
 ### To do:
 1. Multinomial Naive Bayes
 
-  Pseudo code:
     
     Training
     
@@ -23,8 +22,10 @@
         for tag:
           log_probability(tag | words) = log_probability(words | tag) + log_probability(tag)
       
-
-
+  Time complexity: O(m*d*c) 
+  n - number of samples
+  c - number of classes
+  d - number of dimensions
 
 
 KNN
@@ -36,8 +37,10 @@ KNN
         compute distance(features, pid['features'])
       sort(distances
       return most_frequent_label(dosatmces(I-> K))
-
-
+  
+  Time complexity: O(n*d) 
+  n - number of samples
+  d - number of dimensions
 
 K-means
 
@@ -50,6 +53,11 @@ K-means
     for centroid in centroids:
       update_centroid_location
     return centroid_location 
+
+  Time complexity: O(n*k*d) 
+  n - number of iterations
+  k - number of centroids
+  d - number of dimensions
   
 Regression Tree
 
