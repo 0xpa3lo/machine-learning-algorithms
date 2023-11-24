@@ -79,6 +79,8 @@ Regression Tree
             tree_node = root.left
           else:
             tree_node = root.right
+
+Combining these, the worst-case time complexity becomes O(N * (N log N + F * N)), where N is the number of examples and F is the number of features. This is because the recursion (depth up to N) multiplies with the complexity of operations performed at each recursive call.
           
 
 
