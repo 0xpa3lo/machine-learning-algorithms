@@ -61,4 +61,27 @@ K-means
   
 Regression Tree
 
+  Training
+
+        for each feature
+          for each split_point_value
+            best_split = min_mse(feature, split_point_value)
+        split_examples_left()
+        recurse()
+        split_examples_right()
+        recurse()
+
+  Prediction
+
+        tree_node = root
+        while tree_node has children:
+          if example[root.split_point['feature']] <= root.split_point['value']:
+            tree_node = root.left
+          else:
+            tree_node = root.right
+          
+
+
+
+
 Basic neuron
