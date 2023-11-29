@@ -6,17 +6,13 @@
 Multinomial Naive Bayes
 
 
-
 KNN
-
 
 
 K-means
 
-
   
 Regression Tree
-
 
 
 Basic neuron
