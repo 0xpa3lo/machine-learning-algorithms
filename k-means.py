@@ -1,49 +1,49 @@
 import random  # Importing the random module for random number generation
 
-class Centroid:
-    def __init__(self, location):
-        self.location = location  # Initializes the centroid with a given location (features)
-        self.closest_users = set()  # A set to keep track of users closest to this centroid
+class ClusterCenter:
+    def __init__(self, coordinates):
+        self.coordinates = coordinates  # Initializes the cluster center with a given coordinates (features)
+        self.assigned_users = set()  # A set to keep track of users assigned to this cluster center
 
-def get_k_means(user_feature_map, num_features_per_user, k):
+def perform_k_means(user_features, features_count, clusters_count):
     random.seed(42)  # Setting a fixed seed for random number generation to ensure reproducibility
-    # Randomly selecting initial users to act as the first centroids
-    initial_centroid_users = random.sample(sorted(list(user_feature_map.keys())), k)
+    # Randomly selecting initial users to act as the initial cluster centers
+    initial_cluster_users = random.sample(sorted(list(user_features.keys())), clusters_count)
 
-    # Creating Centroid objects for each selected initial user
-    centroids = [Centroid(user_feature_map[initial_centroid_user]) for initial_centroid_user in initial_centroid_users]
+    # Creating ClusterCenter objects for each selected initial user
+    cluster_centers = [ClusterCenter(user_features[user]) for user in initial_cluster_users]
 
     for _ in range(10):  # Running the algorithm for a fixed number of iterations (10)
-        for uid, features in user_feature_map.items():  # Iterating over each user
-            closest_centroid_distance = float("inf")  # Initializing the closest distance as infinity
-            closest_centroid = None  # Placeholder for the closest centroid
+        for user_id, features in user_features.items():  # Iterating over each user
+            min_distance = float("inf")  # Initializing the minimum distance as infinity
+            nearest_center = None  # Placeholder for the nearest cluster center
 
-            # Finding the closest centroid to the current user
-            for centroid in centroids:
-                distance = get_manhattan_distance(features, centroid.location)  # Calculating Manhattan distance
-                if distance < closest_centroid_distance:  # Checking if this centroid is closer
-                    closest_centroid_distance = distance
-                    closest_centroid = centroid
+            # Finding the nearest cluster center to the current user
+            for center in cluster_centers:
+                distance = calculate_manhattan_distance(features, center.coordinates)  # Calculating Manhattan distance
+                if distance < min_distance:  # Checking if this center is nearer
+                    min_distance = distance
+                    nearest_center = center
 
-            closest_centroid.closest_users.add(uid)  # Assigning the user to the closest centroid
+            nearest_center.assigned_users.add(user_id)  # Assigning the user to the nearest cluster center
 
-        # Updating the location of each centroid
-        for centroid in centroids:
-            centroid.location = get_centroid_average(centroid, num_features_per_user, user_feature_map)  # Recomputing centroid's location
-            centroid.closest_users.clear()  # Clearing the set for the next iteration
+        # Updating the coordinates of each cluster center
+        for center in cluster_centers:
+            center.coordinates = compute_center_average(center, features_count, user_features)  # Recomputing center's coordinates
+            center.assigned_users.clear()  # Clearing the set for the next iteration
 
-    return [centroid.location for centroid in centroids]  # Returning the final locations of centroids
+    return [center.coordinates for center in cluster_centers]  # Returning the final coordinates of cluster centers
 
-def get_manhattan_distance(features, other_features):
+def calculate_manhattan_distance(features, other_features):
     # Calculating Manhattan distance between two sets of features
-    absolute_differences = [abs(features[i] - other_features[i]) for i in range(len(features))]
-    return sum(absolute_differences)  # Summing up the absolute differences
+    differences = [abs(features[i] - other_features[i]) for i in range(len(features))]
+    return sum(differences)  # Summing up the absolute differences
 
-def get_centroid_average(centroid, num_features_per_user, user_feature_map):
-    centroid_average = [0] * num_features_per_user  # Initializing a list to store the average for each feature
+def compute_center_average(center, features_count, user_features):
+    average_coordinates = [0] * features_count  # Initializing a list to store the average for each feature
     # Calculating the average for each feature
-    for i in range(num_features_per_user):
-        for user in centroid.closest_users:
-            centroid_average[i] += user_feature_map[user][i]  # Summing up the features of all closest users
-    # Dividing each feature sum by the number of closest users to get the average
-    return [value / len(centroid.closest_users) if centroid.closest_users else 0 for value in centroid_average]
+    for i in range(features_count):
+        for user in center.assigned_users:
+            average_coordinates[i] += user_features[user][i]  # Summing up the features of all assigned users
+    # Dividing each feature sum by the number of assigned users to get the average
+    return [value / len(center.assigned_users) if center.assigned_users else 0 for value in average_coordinates]
