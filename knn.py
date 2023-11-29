@@ -1,58 +1,54 @@
 import math
 
-def predict_label(examples, features, k, label_key="is_intrusive"):
+def predict_label(data_points, target_features, neighbors_count, label_key="is_intrusive"):
     """
-    Predicts the label for a given set of features using the K-Nearest Neighbors algorithm.
-    This function finds the k nearest neighbors from the given examples using the Euclidean distance.
-    It then calculates the majority label from these neighbors as the predicted label for the input features.
+    Uses K-Nearest Neighbors to predict the label of a new data point.
+    Finds the 'neighbors_count' nearest data points and uses majority vote for prediction.
 
     Args:
-        examples (dict): A dictionary of examples with their feature values and labels.
-        features (list): The feature list of the new example whose label needs to be predicted.
-        k (int): The number of nearest neighbors to consider.
-        label_key (str, optional): The key in the examples dictionary for the label. Defaults to "is_intrusive".
+        data_points (dict): Collection of known data points with features and labels.
+        target_features (list): Features of the data point to be labeled.
+        neighbors_count (int): Number of nearest neighbors to consider for prediction.
+        label_key (str, optional): Key for the label in data_points. Defaults to "is_intrusive".
 
     Returns:
-        int: The predicted label, 0 or 1, based on the majority voting of k-nearest neighbors.
+        int: Predicted label (0 or 1) based on nearest neighbors.
     """
-    knn = find_k_nearest_neighbors(examples, features, k)
-    knn_labels = [examples[pid][label_key] for pid in knn]
-    return round(sum(knn_labels)/k)
+    nearest_neighbors = find_k_nearest_neighbors(data_points, target_features, neighbors_count)
+    neighbor_labels = [data_points[point_id][label_key] for point_id in nearest_neighbors]
+    return round(sum(neighbor_labels) / neighbors_count)
 
-def find_k_nearest_neighbors(examples, features, k):
+def find_k_nearest_neighbors(data_points, target_features, neighbors_count):
     """
-    Finds the k nearest neighbors of a given data point in the feature space.
-    This function calculates the Euclidean distance between the input features and each example in the dataset.
-    It returns the identifiers of the k examples with the smallest distances.
+    Identifies the nearest neighbors of a new data point in the dataset.
+    Calculates Euclidean distance to each data point and picks the closest ones.
 
     Args:
-        examples (dict): A dictionary of examples with their feature values and labels.
-        features (list): The feature list of the new example.
-        k (int): The number of nearest neighbors to find.
+        data_points (dict): Known data points with features and labels.
+        target_features (list): Features of the new data point.
+        neighbors_count (int): Number of nearest neighbors to find.
 
     Returns:
-        list: A list of identifiers (keys) for the k nearest neighbors.
+        list: Identifiers for the nearest neighbors.
     """
     distances = {}
-    for pid, features_label_map in examples.items():
-        distance = get_euclidean_distance(features, features_label_map['features'])
-        distances[pid] = distance
+    for point_id, feature_label_map in data_points.items():
+        distance = calculate_euclidean_distance(target_features, feature_label_map['features'])
+        distances[point_id] = distance
 
-    return sorted(distances, key=distances.get)[:k]
+    return sorted(distances, key=distances.get)[:neighbors_count]
 
-def get_euclidean_distance(features, other_features):
+def calculate_euclidean_distance(target_features, comparison_features):
     """
-    Calculates the Euclidean distance between two data points in the feature space.
+    Computes the Euclidean distance between two feature sets.
 
     Args:
-        features (list): The feature list of the first data point.
-        other_features (list): The feature list of the second data point.
+        target_features (list): Feature set of the first data point.
+        comparison_features (list): Feature set of the second data point.
 
     Returns:
-        float: The Euclidean distance between the two data points.
+        float: Euclidean distance between the two feature sets.
     """
-    squared_differences = []
-    for i in range(len(features)):
-        squared_differences.append((other_features[i] - features[i])**2)
+    squared_differences = [(comparison_features[i] - target_features[i])**2 for i in range(len(target_features))]
     
     return math.sqrt(sum(squared_differences))
