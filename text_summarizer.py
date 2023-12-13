@@ -9,11 +9,11 @@ def sumamarize_text(text_string, threshold=3.9):
     # stop words removal
     stop_words = set(stopwords.words("english"))
     # init tf_idf
-    tf_idf_vectorizer = TfidfVectorizer()
+    tf_idf_vectorizer = TfidfVectorizer(stop_words=stop_words)
     tf_idf_matrix = tf_idf_vectorizer.fit_transform(sentences_tekens)
     # transform to matrix and sum the rows
-    tf_idf_per_sentence = np.array(tf_idf_matrix.sum(axis=1)).ravel()
+    tf_idf_per_sentence_array = np.array(tf_idf_matrix.sum(axis=1)).ravel()
     # summarize tokens
-    sentence_summary_indices = np.argwhere(tf_idf_per_sentence > threshold).ravel()
-    return "".join(sentences_tekens[sentence_summary_indices])
+    summary_indices = np.argwhere(tf_idf_per_sentence_array > threshold).ravel()
+    return "".join(sentences_tekens[summary_indices])
 
