@@ -48,10 +48,13 @@ def get_manhattan_distance(point_a, point_b, num_features):
     return sum(abs(a - b) for a, b in zip(point_a, point_b))
 
 
-
-
-
-
+"""
+Time complexity O(i * n * k)
+i num of iterations
+n num of users
+k num of centroids
+constant are removes: O(n k)
+"""
 
 
 
