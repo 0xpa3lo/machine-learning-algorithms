@@ -44,10 +44,15 @@ class MultinomialNB:
         return posteriori
 
 
+'''
+For training: O(N * W + V * T)
+N - number or articles
+W - avg words per article
+V - size of vocabulary
+T - num of classes
 
-
-
-
+For prediction (per article): O(W * T)
+'''
 
 
 
