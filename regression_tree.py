@@ -2,11 +2,12 @@ from collections import defaultdict
 import math
 
 class DecisionNode:
-    def __init__(self, data):
+    def __init__(self, data, target):
         self.data = data
         self.left_child = None
         self.right_child = None
         self.best_split = None
+        self.target = target
 
     def split_node(self):
         # Stop splitting if there's only one or no data point
@@ -48,8 +49,8 @@ class DecisionNode:
         self.right_child.split_node()
 
     def calculate_split_mse(self, feature, split_val):
-        left_labels = [item["bpd"] for item in self.data if item[feature] <= split_val]
-        right_labels = [item["bpd"] for item in self.data if item[feature] > split_val]
+        left_labels = [item[self.target] for item in self.data if item[feature] <= split_val]
+        right_labels = [item[self.target] for item in self.data if item[feature] > split_val]
 
         if not left_labels or not right_labels:
             return None, None
@@ -70,10 +71,11 @@ def calculate_mean(values):
     return sum(values) / len(values)
 
 class RegressionTree:
-    def __init__(self, data):
+    def __init__(self, data, target):
         self.root = DecisionNode(data)
         self.build_tree()
-
+        self.target = target 
+        
     def build_tree(self):
         self.root.split_node()
 
@@ -85,5 +87,5 @@ class RegressionTree:
             else:
                 current_node = current_node.right_child
 
-        leaf_labels = [leaf["bpd"] for leaf in current_node.data]
+        leaf_labels = [leaf[target] for leaf in current_node.data]
         return calculate_mean(leaf_labels)
